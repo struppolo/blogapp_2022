@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\User;
 class PostController extends Controller
 {
     /**
@@ -13,7 +14,7 @@ class PostController extends Controller
      */
     public function index()
     {
-    $posts = Post::all();
+    $posts = User::find(Auth::id())->posts;
     return view('posts.index', ['posts'=>$posts]);
     }
 

@@ -14,9 +14,19 @@
   @endauth
 
   @foreach ($posts as $post)
-  <a href="{{ route('posts.show',$post->id) }}">{{ $post->titolo }}</a>
+  <div class="card">
+  <div class="card-header">
+     <a href="{{ route('posts.show',$post->id) }}">{{ $post->titolo }}</a>
+  </div>
+  <div class="card-body">
+  {{ $post->descrizione }}
+  </div>
+   <div class="card-footer">
+   Inserito da {{ $post->user->name }} il {{ \Carbon\Carbon::parse($post->created_at)->format('d-m-Y') }}
+  </div>
+</div>
+<hr>
 
-  <a href="{{ route('posts.edit',$post->id) }}">Modifica</a> <a href="{{ route('posts.destroy',$post->id) }}">Elimina</a><br>
   @endforeach
 
 @endsection
