@@ -1,8 +1,11 @@
+@extends('layouts.template')
+@section('content')
 <form action="{{ route('posts.update',$post->id) }}" method="post">
 @csrf
 Titolo<br>
-<input type="text" name="titolo" value="{{ $post->titolo }}"/>
+<input type="text" name="titolo"  class="form-control" value="{{ $post->titolo }}"/>
 Descrizione
-<input type="text" name="descrizione" value="{{ $post->descrizione }}"/>
-<input type="submit" name="Aggiorna" />
+<textarea class="form-control" name="descrizione">{{ $post->descrizione }}</textarea><br />
+<input type="submit" name="Aggiorna" class="btn btn-primary"/>
 </form>
+@endsection
