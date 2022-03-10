@@ -109,8 +109,10 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = Post::find($id);
 
+
+        $post = Post::find($id);
+        if(Auth::id()==$post->user->id){
         if (Storage::exists('public/immagini/' . $post->immagine)) {
             Storage::delete('public/immagini/' . $post->immagine);
         }
@@ -118,5 +120,7 @@ class PostController extends Controller
         $post->delete();
 
         return redirect()->route('posts.index')->with('msg', 'Articolo eliminato!');
+    }
+    return "Non hai i permessi!";
     }
 }
