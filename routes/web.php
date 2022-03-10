@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Models\Post;
@@ -18,6 +18,16 @@ Route::get('/', function () {
 $posts = Post::orderBy('created_at')->paginate(3);
 return view('index',['posts'=>$posts]);
 })->name('index');
+
+
+Route::get('/results', function (Request $request) {
+
+    $posts = Post::where('titolo','like','%' . $request->input('cerca') . '%')
+    ->orWhere('descrizione','like','%' . $request->input('cerca') . '%')
+    ->paginate(10);
+    return view('results',['posts'=>$posts],compact('request'));
+    })->name('results');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
