@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
+
 class PostController extends Controller
 {
     /**
@@ -15,8 +17,8 @@ class PostController extends Controller
      */
     public function index()
     {
-    $posts = User::find(Auth::id())->posts;
-    return view('posts.index', ['posts'=>$posts]);
+        $posts = User::find(Auth::id())->posts;
+        return view('posts.index', ['posts' => $posts]);
     }
 
     /**
@@ -37,20 +39,25 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-    if(!is_null($request->file('immagine'))){
-    $path = $request->file('immagine')->store('public/immagini');
-    $nome = explode("/",$path);
-    }
-    else $nome[2] = '';
 
-    $post = new Post;
-    $post->titolo = $request->titolo;
-    $post->descrizione = $request->descrizione;
-    $post->user_id = Auth::id();
-    $post->immagine = $nome[2];
-    $post->save();
 
-    return redirect()->route('index');
+        $validated = $request->validate([
+            'titolo' => 'required|max:255',
+            'descrizione' => 'required',
+        ]);
+        if (!is_null($request->file('immagine'))) {
+            $path = $request->file('immagine')->store('public/immagini');
+            $nome = explode("/", $path);
+        } else $nome[2] = '';
+
+        $post = new Post;
+        $post->titolo = $request->titolo;
+        $post->descrizione = $request->descrizione;
+        $post->user_id = Auth::id();
+        $post->immagine = $nome[2];
+        $post->save();
+
+        return redirect()->route('posts.index')->with('msg', 'Articolo correttamente inserito!');
     }
 
     /**
@@ -61,8 +68,8 @@ class PostController extends Controller
      */
     public function show($id)
     {
-    $post = Post::findOrFail($id);
-     return view('posts.show',compact('post'));
+        $post = Post::findOrFail($id);
+        return view('posts.show', compact('post'));
     }
 
     /**
@@ -74,7 +81,7 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);
-        return view('posts.edit',compact('post'));
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -86,12 +93,12 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-    $post = Post::find($id);
-    $post->titolo = $request->titolo;
-    $post->descrizione = $request->descrizione;
-    $post->user_id =1;
-    $post->save();
-    return redirect()->route('posts.index');
+        $post = Post::find($id);
+        $post->titolo = $request->titolo;
+        $post->descrizione = $request->descrizione;
+        $post->user_id = 1;
+        $post->save();
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -102,14 +109,14 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-     $post = Post::find($id);
+        $post = Post::find($id);
 
-     if(Storage::exists('public/immagini/' . $post->immagine)){
-     Storage::delete('public/immagini/' . $post->immagine);
-     }
+        if (Storage::exists('public/immagini/' . $post->immagine)) {
+            Storage::delete('public/immagini/' . $post->immagine);
+        }
 
-     $post->delete();
+        $post->delete();
 
-     return redirect()->route('posts.index');
+        return redirect()->route('posts.index')->with('msg', 'Articolo eliminato!');
     }
 }

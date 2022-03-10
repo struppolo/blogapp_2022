@@ -1,5 +1,11 @@
 @extends('layouts.template')
 @section('content')
+@if(Session::has('msg'))
+<div class="alert alert-success" role="alert">
+    {{ Session::get('msg') }}
+  </div>
+
+@endif
 <h1>I miei posts</h1>
 <table class="table table-striped table-bordered">
    <tr>
