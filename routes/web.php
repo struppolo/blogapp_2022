@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
@@ -15,34 +16,34 @@ use App\Models\Post;
 */
 
 Route::get('/', function () {
-$posts = Post::orderBy('created_at')->paginate(3);
-return view('index',['posts'=>$posts]);
+    $posts = Post::orderBy('created_at')->paginate(3);
+    return view('index', ['posts' => $posts]);
 })->name('index');
 
 
 Route::get('/results', function (Request $request) {
 
-    $posts = Post::where('titolo','like','%' . $request->input('cerca') . '%')
-    ->orWhere('descrizione','like','%' . $request->input('cerca') . '%')
-    ->paginate(10);
-    return view('results',['posts'=>$posts],compact('request'));
-    })->name('results');
+    $posts = Post::where('titolo', 'like', '%' . $request->input('cerca') . '%')
+        ->orWhere('descrizione', 'like', '%' . $request->input('cerca') . '%')
+        ->paginate(10);
+    return view('results', ['posts' => $posts], compact('request'));
+})->name('results');
 
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/posts',[PostController::class,'index'])->name('posts.index');
-Route::get('/posts/create',[PostController::class,'create'])->name('posts.create')->middleware('auth');
-Route::post('posts/store',[PostController::class,'store'])->name('posts.store');
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create')->middleware('auth');
+Route::post('posts/store', [PostController::class, 'store'])->name('posts.store');
 
-Route::get('/posts/{id}',[PostController::class,'show'])->name('posts.show');
-Route::get('/posts/{id}/edit',[PostController::class,'edit'])->name('posts.edit');
-Route::post('posts/{id}/update',[PostController::class,'update'])->name('posts.update');
-Route::get('/posts/{id}/destroy',[PostController::class,'destroy'])->name('posts.destroy')->middleware('auth');
+Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
+Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
+Route::post('posts/{id}/update', [PostController::class, 'update'])->name('posts.update');
+Route::get('/posts/{id}/destroy', [PostController::class, 'destroy'])->name('posts.destroy')->middleware('auth');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Auth::routes();
 
