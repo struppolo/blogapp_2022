@@ -15,7 +15,7 @@ use App\Models\Post;
 */
 
 Route::get('/', function () {
-$posts = Post::all();
+$posts = Post::orderBy('created_at')->paginate(3);
 return view('index',['posts'=>$posts]);
 })->name('index');
 

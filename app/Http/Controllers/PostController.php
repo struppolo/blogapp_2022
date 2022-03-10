@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 class PostController extends Controller
 {
     /**
@@ -36,11 +37,19 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+    if(!is_null($request->file('immagine'))){
+    $path = $request->file('immagine')->store('public/immagini');
+    $nome = explode("/",$path);
+    }
+    else $nome[2] = '';
+
     $post = new Post;
     $post->titolo = $request->titolo;
     $post->descrizione = $request->descrizione;
     $post->user_id = Auth::id();
+    $post->immagine = $nome[2];
     $post->save();
+
     return redirect()->route('index');
     }
 
@@ -53,7 +62,7 @@ class PostController extends Controller
     public function show($id)
     {
     $post = Post::findOrFail($id);
-     return $post->titolo;
+     return view('posts.show',compact('post'));
     }
 
     /**
@@ -94,7 +103,13 @@ class PostController extends Controller
     public function destroy($id)
     {
      $post = Post::find($id);
+
+     if(Storage::exists('public/immagini/' . $post->immagine)){
+     Storage::delete('public/immagini/' . $post->immagine);
+     }
+
      $post->delete();
+
      return redirect()->route('posts.index');
     }
 }

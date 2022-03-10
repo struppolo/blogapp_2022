@@ -19,7 +19,10 @@
      <a href="{{ route('posts.show',$post->id) }}">{{ $post->titolo }}</a>
   </div>
   <div class="card-body">
-  {!! $post->descrizione !!}, 
+      @if( $post->immagine!='')
+      <img src="/storage/immagini/{{ $post->immagine }}" width="200" class="img-thumbnail" />
+      @endif
+  {!! $post->descrizione !!},
   </div>
    <div class="card-footer">
    Inserito da {{ $post->user->name }} il {{ \Carbon\Carbon::parse($post->created_at)->format('d-m-Y') }}
@@ -28,5 +31,5 @@
 <hr>
 
   @endforeach
-
+  {{ $posts->links() }}
 @endsection

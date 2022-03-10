@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'Emanuele',
             'email' => 'e.speca@infobasic.it',
+            'created_at' => \Carbon\Carbon::now(),
             'password' => Hash::make('password'),
         ]);
     }
