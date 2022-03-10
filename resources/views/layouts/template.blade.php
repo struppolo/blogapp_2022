@@ -10,11 +10,11 @@
     <title>BlogApp - Laravel 8</title>
     <!-- Bootstrap core CSS -->
     <link href=" {{ asset('css/app.css') }}" rel="stylesheet">
-  
+
 
     <meta name="theme-color" content="#7952b3">
 
-
+    <script src="https://kit.fontawesome.com/dc56debdfc.js" crossorigin="anonymous"></script>
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -64,6 +64,7 @@
           toolbar_mode: 'floating',
         });
       </script>
+
 </body>
 
 </html>

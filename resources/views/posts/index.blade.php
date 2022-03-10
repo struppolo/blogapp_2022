@@ -5,7 +5,7 @@
    <tr>
     <th>Titolo</th>
     <th>Data Inserimento</th>
-    <th>Azioni</th>
+    <th colspan="2">Azioni</th>
 </tr>
 @foreach ($posts as $post)
 <tr>
@@ -16,7 +16,9 @@
     {{ $post->created_at }}
     </td>
 <td>
-<a href="{{ route('posts.edit',$post->id) }}">Modifica</a> <a href="{{ route('posts.destroy',$post->id) }}">Elimina</a>
+<a href="{{ route('posts.edit',$post->id) }}"><i class="fa-solid fa-pencil fa-lg"></i></a>
+</td>
+<td> <a href="{{ route('posts.destroy',$post->id) }}"><i class="fa-solid fa-trash fa-lg"></i></a>
 </td>
 </tr>
 @endforeach
