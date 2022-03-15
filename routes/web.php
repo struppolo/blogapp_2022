@@ -45,7 +45,9 @@ Route::post('posts/{id}/update', [PostController::class, 'update'])->name('posts
 Route::get('/posts/{id}/destroy', [PostController::class, 'destroy'])->name('posts.destroy')->middleware('auth');
 
 Route::resource('/comments',CommentController::class)->middleware('auth');
-
+Route::get('/admin',function(){
+return view('admin.index');
+});
 require __DIR__ . '/auth.php';
 
 Auth::routes();
