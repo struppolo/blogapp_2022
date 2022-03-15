@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 use App\Models\Post;
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,8 @@ Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
 Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
 Route::post('posts/{id}/update', [PostController::class, 'update'])->name('posts.update');
 Route::get('/posts/{id}/destroy', [PostController::class, 'destroy'])->name('posts.destroy')->middleware('auth');
+
+Route::resource('/comments',CommentController::class)->middleware('auth');
 
 require __DIR__ . '/auth.php';
 
