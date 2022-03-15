@@ -20,5 +20,11 @@ class UserSeeder extends Seeder
             'created_at' => \Carbon\Carbon::now(),
             'password' => Hash::make('password'),
         ]);
+        DB::table('users')->insert([
+            'name' => 'Mario',
+            'email' => 'mario@infobasic.it',
+            'created_at' => \Carbon\Carbon::now(),
+            'password' => Hash::make('password'),
+        ]);
     }
 }
