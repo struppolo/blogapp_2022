@@ -1,5 +1,14 @@
-@extends('layouts.template')
+@extends('adminlte::page')
+
+@section('title', 'Dashboard')
+
+@section('content_header')
+    <h1>Dashboard</h1>
+@stop
 
 @section('content')
-<h1>Area riservata admin</h1>
-@endsection
+    <p>Welcome to this beautiful admin panel.</p>
+@stop
+@section('footer')
+Powered by Infobasic
+@stop

@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\UserAdminController;
 use App\Models\Post;
 /*
 |--------------------------------------------------------------------------
@@ -45,9 +46,15 @@ Route::post('posts/{id}/update', [PostController::class, 'update'])->name('posts
 Route::get('/posts/{id}/destroy', [PostController::class, 'destroy'])->name('posts.destroy')->middleware('auth');
 
 Route::resource('/comments',CommentController::class)->middleware('auth');
+
+
 Route::get('/admin',function(){
 return view('admin.index');
 })->middleware('admin');
+
+Route::get('/admin/users',[UserAdminController::class,'index'])->middleware('admin')->name('admin.users.index');
+
+
 require __DIR__ . '/auth.php';
 Route::get('/notauth',function(){
     return view('notauth');
