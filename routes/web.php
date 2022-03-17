@@ -47,9 +47,11 @@ Route::get('/posts/{id}/destroy', [PostController::class, 'destroy'])->name('pos
 Route::resource('/comments',CommentController::class)->middleware('auth');
 Route::get('/admin',function(){
 return view('admin.index');
-});
+})->middleware('admin');
 require __DIR__ . '/auth.php';
-
+Route::get('/notauth',function(){
+    return view('notauth');
+})->name('notauth');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
