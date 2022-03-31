@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Post;
+use App\Mail\CommentInserted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 class CommentController extends Controller
 {
     /**
@@ -24,7 +27,8 @@ class CommentController extends Controller
      */
     public function create()
     {
-        //
+
+       
     }
 
     /**
@@ -35,11 +39,17 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
+
+    
     $comment = new Comment;
     $comment->testo = $request->testo;
     $comment->user_id = Auth::id();
     $comment->post_id = $request->post_id;
     $comment->save();
+    $post = Post::find($request->post_id);
+    $email = $post->user->email;
+    
+    Mail::to($email)->send(new CommentInserted($post));
     return redirect()->route('posts.show',$request->post_id);
     }
 
