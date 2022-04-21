@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ApiPostController extends Controller
@@ -15,7 +16,15 @@ class ApiPostController extends Controller
      */
     public function index()
     {
-        return Post::all();
+        $posts = Post::all();
+        $posts_array = $posts->toArray();
+        foreach($posts_array as $key => $post){
+        $user = User::find($post['user_id']);
+       
+        $posts_array[$key]['nome'] = $user->name;
+        
+        }
+        return response()->json($posts_array);
     }
 
     /**
